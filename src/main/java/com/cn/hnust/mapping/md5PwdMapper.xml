@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.dao.IMd5PwdDao">
+  <resultMap id="Md5ResultMap" type="com.cn.hnust.entity.md5Pwd">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sixteen_bits" jdbcType="VARCHAR" property="sixteenBits" />
+    <result column="thirtytwo_bits" jdbcType="VARCHAR" property="thirtytwoBits" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, sixteen_bits, thirtytwo_bits, content
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="Md5ResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from md5table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByContent" parameterType="java.lang.String" resultMap="Md5ResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from md5table
+    where content = #{content,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from md5table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.cn.hnust.entity.md5Pwd">
+    insert into md5table (id, sixteen_bits, thirtytwo_bits, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{sixteenBits,jdbcType=VARCHAR}, #{thirtytwoBits,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.entity.md5Pwd">
+    insert into md5table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sixteenBits != null">
+        sixteen_bits,
+      </if>
+      <if test="thirtytwoBits != null">
+        thirtytwo_bits,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sixteenBits != null">
+        #{sixteenBits,jdbcType=VARCHAR},
+      </if>
+      <if test="thirtytwoBits != null">
+        #{thirtytwoBits,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.entity.md5Pwd">
+    update md5table
+    <set>
+      <if test="sixteenBits != null">
+        sixteen_bits = #{sixteenBits,jdbcType=VARCHAR},
+      </if>
+      <if test="thirtytwoBits != null">
+        thirtytwo_bits = #{thirtytwoBits,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.entity.md5Pwd">
+    update md5table
+    set sixteen_bits = #{sixteenBits,jdbcType=VARCHAR},
+      thirtytwo_bits = #{thirtytwoBits,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>
